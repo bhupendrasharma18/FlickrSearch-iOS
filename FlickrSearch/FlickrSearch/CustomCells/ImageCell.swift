@@ -15,6 +15,7 @@ class ImageCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         imgView.backgroundColor = .blue
+        contentView.backgroundColor = .red
     }
 
 }
