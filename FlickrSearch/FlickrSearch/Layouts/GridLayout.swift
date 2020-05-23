@@ -32,9 +32,16 @@ class GridLayout: UICollectionViewLayout {
     }
     
     override func prepare() {
-        guard arrAttributes.isEmpty == true, let collectionView = collectionView else {
+//        guard arrAttributes.isEmpty == true, let collectionView = collectionView else {
+//            return
+//        }
+        
+        arrAttributes.removeAll()
+        guard arrAttributes.isEmpty == true || arrAttributes.isEmpty == false, let collectionView = collectionView else {
             return
         }
+        contentHeight = 0
+        
         let columnWidth = contentWidth / CGFloat(columns)
         var xOffset: [CGFloat] = []
         for column in 0..<columns {

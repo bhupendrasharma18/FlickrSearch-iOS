@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     let identifier = "ImageCellIdentifier"
     var searchModel: SearchModel?
+    var isFetching: Bool = false
+    var searchedRecently: String = ""
+    var currentPage: Int = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +28,27 @@ class ViewController: UIViewController {
         collectionView.register(UINib.init(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: identifier)
     }
     
-    func requestSearch(text: String?) {
-        let pageNo = 1
+    private func requestSearch(text: String?) {
+        isFetching = true
         guard let keyword = text, keyword.count > 0 else { return }
+        if keyword == searchedRecently {
+            currentPage += 1
+        }
+        else {
+            currentPage = 1
+        }
         let request = SearchRequest()
-        request.makeSearchRequest(keyword: keyword, pageNo: pageNo ) { (model: SearchModel?, error: Error?) in
+        request.makeSearchRequest(keyword: keyword, pageNo: currentPage ) { (model: SearchModel?, error: Error?) in
             DispatchQueue.main.async {
-                self.searchModel = model
+                if self.searchModel?.photos != nil && self.currentPage > 1 {
+                    self.searchModel?.photos?.append(contentsOf: model?.photos ?? [])
+                }
+                else {
+                    self.searchModel = model
+                    self.searchedRecently = keyword
+                }
                 self.collectionView.reloadData()
+                self.isFetching = false
             }
         }
     }
@@ -41,7 +57,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchModel?.photos?.count ?? 0//30
+        return searchModel?.photos?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -51,6 +67,14 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         }
         cell.configureCell(photo: arr[indexPath.item])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let arr = searchModel?.photos else { return }
+        if indexPath.item >= arr.count - 1 && !isFetching  {
+            print("Fetch data for next page")
+            requestSearch(text: searchedRecently)
+        }
     }
 }
 
