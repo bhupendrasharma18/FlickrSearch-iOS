@@ -23,6 +23,7 @@
 		73F7102E2478406B00CFB896 /* SearchParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F7102D2478406B00CFB896 /* SearchParser.swift */; };
 		73F710312478B6FB00CFB896 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F710302478B6FB00CFB896 /* NetworkRequest.swift */; };
 		73F710332478F6C100CFB896 /* SearchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F710322478F6C100CFB896 /* SearchRequest.swift */; };
+		73F71035247937AD00CFB896 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F71034247937AD00CFB896 /* ImageDownloader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		73F7102D2478406B00CFB896 /* SearchParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchParser.swift; sourceTree = "<group>"; };
 		73F710302478B6FB00CFB896 /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		73F710322478F6C100CFB896 /* SearchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRequest.swift; sourceTree = "<group>"; };
+		73F71034247937AD00CFB896 /* ImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 		73F7102F2478B5E000CFB896 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				73F71034247937AD00CFB896 /* ImageDownloader.swift */,
 				73F710302478B6FB00CFB896 /* NetworkRequest.swift */,
 				73F710322478F6C100CFB896 /* SearchRequest.swift */,
 			);
@@ -330,6 +333,7 @@
 				73F710332478F6C100CFB896 /* SearchRequest.swift in Sources */,
 				73F7102224781A9000CFB896 /* ImageCell.swift in Sources */,
 				73F71026247822A300CFB896 /* GridLayout.swift in Sources */,
+				73F71035247937AD00CFB896 /* ImageDownloader.swift in Sources */,
 				73F7102B2478400700CFB896 /* SearchModel.swift in Sources */,
 				73F70FF02478185A00CFB896 /* AppDelegate.swift in Sources */,
 				73F710312478B6FB00CFB896 /* NetworkRequest.swift in Sources */,

@@ -32,15 +32,19 @@ class GridLayout: UICollectionViewLayout {
     }
     
     override func prepare() {
+        super.prepare()
+        
 //        guard arrAttributes.isEmpty == true, let collectionView = collectionView else {
 //            return
 //        }
         
+        // for pagination reload
         arrAttributes.removeAll()
-        guard arrAttributes.isEmpty == true || arrAttributes.isEmpty == false, let collectionView = collectionView else {
+        guard let collectionView = collectionView else {
             return
         }
         contentHeight = 0
+        // end
         
         let columnWidth = contentWidth / CGFloat(columns)
         var xOffset: [CGFloat] = []

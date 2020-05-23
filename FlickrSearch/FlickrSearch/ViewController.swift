@@ -23,8 +23,9 @@ class ViewController: UIViewController {
 
         if let layout = collectionView?.collectionViewLayout as? GridLayout {
             layout.delegate = self
-            layout.set(columns: 3, cellPadding: 5)
+            layout.set(columns: 2, cellPadding: 5)
         }
+//        collectionView?.prefetchDataSource = self
         collectionView.register(UINib.init(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: identifier)
     }
     
@@ -47,7 +48,9 @@ class ViewController: UIViewController {
                     self.searchModel = model
                     self.searchedRecently = keyword
                 }
-                self.collectionView.reloadData()
+                UIView.performWithoutAnimation {
+                    self.collectionView.reloadData()
+                }
                 self.isFetching = false
             }
         }
@@ -72,11 +75,19 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let arr = searchModel?.photos else { return }
         if indexPath.item >= arr.count - 1 && !isFetching  {
-            print("Fetch data for next page")
             requestSearch(text: searchedRecently)
         }
     }
 }
+
+//extension ViewController: UICollectionViewDataSourcePrefetching {
+//  func collectionView(_ collectionView: UICollectionView,
+//      prefetchItemsAt indexPaths: [IndexPath]) {
+//    for indexPath in indexPaths {
+//        print("Prefetch: \(indexPath.item)")
+//    }
+//  }
+//}
 
 extension ViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
