@@ -11,7 +11,7 @@ import UIKit
 class SearchRequest: NSObject {
     let APIKey = "3264f8a3442962793f611977d2589e03"
     
-    func makeSearchRequest(keyword: String!, pageNo: Int!, completion: @escaping (_ searchModel: SearchModel?, _ error: Error?) -> Void) {
+    func makeSearchRequest(keyword: String, pageNo: Int, completion: @escaping (_ searchModel: SearchModel?, _ error: Error?) -> Void) {
         let urlStr = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=\(APIKey)&format=json&text=.\(keyword)&nojsoncallback=true&per_page=20&extras=url_s&page=\(pageNo)"
         guard let url = URL.init(string: urlStr) else {
             return

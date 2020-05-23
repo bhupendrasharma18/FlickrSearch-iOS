@@ -18,8 +18,8 @@ class SearchParser {
             searchModel.perPage = searched["perpage"] as? Int
             searchModel.total = searched["total"] as? Int
             searchModel.photos = parsePhotos(photos: searched["photo"] as? [AnyObject])
+            return searchModel
         }
-        
         return nil
     }
     
@@ -34,6 +34,9 @@ class SearchParser {
             photoModel.urlString = obj["url_s"] as? String
             photoModel.width = obj["width_s"] as? CGFloat
             photoModel.height = obj["height_s"] as? CGFloat
+            if let w = photoModel.width, let h = photoModel.height, h > 0 {
+                photoModel.aspectRatio = w / h
+            }
             arrPhotos.append(photoModel)
         }
         return arrPhotos

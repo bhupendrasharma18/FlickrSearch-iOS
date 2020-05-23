@@ -10,12 +10,27 @@ import UIKit
 
 class ImageCell: UICollectionViewCell {
 
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var imgView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        imgView.backgroundColor = .blue
-        contentView.backgroundColor = .red
+        
+        containerView.layer.cornerRadius = 6
+        containerView.layer.masksToBounds = true
+    }
+    
+    func configureCell(photo: PhotoModel?) {
+        guard let model = photo, let urlStr = model.urlString else { return }
+        if let url = URL.init(string: urlStr) {
+            DispatchQueue.global().async {
+                if let data = try? Data.init(contentsOf: url) {
+                    DispatchQueue.main.async {
+                        self.imgView.image = UIImage.init(data: data)
+                    }
+                }
+            }
+        }
     }
 
 }

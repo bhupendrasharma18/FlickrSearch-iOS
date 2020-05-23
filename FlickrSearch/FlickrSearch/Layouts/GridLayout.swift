@@ -9,13 +9,13 @@
 import UIKit
 
 protocol GridLayoutDelegate: AnyObject {
-    func heightForPhotoAtIndexPath(indexPath: IndexPath) -> CGFloat
+    func imageAspectRatioAtIndexpath(indexPath: IndexPath) -> CGFloat
 }
 
 class GridLayout: UICollectionViewLayout {
     weak var delegate: GridLayoutDelegate?
     private var columns = 1
-    private var cellPadding: CGFloat = 6
+    private var cellPadding: CGFloat = 0
     private var arrAttributes: [UICollectionViewLayoutAttributes] = []
     private var contentHeight: CGFloat = 0
 
@@ -46,8 +46,9 @@ class GridLayout: UICollectionViewLayout {
       
         for item in 0..<collectionView.numberOfItems(inSection: 0) {
             let indexPath = IndexPath(item: item, section: 0)
-              
-            let photoHeight = delegate?.heightForPhotoAtIndexPath(indexPath: indexPath) ?? 180
+            
+            let ratio = delegate?.imageAspectRatioAtIndexpath(indexPath: indexPath) ?? 1
+            let photoHeight = columnWidth / ratio
             let height = cellPadding * 2 + photoHeight
             let frame = CGRect(x: xOffset[column], y: yOffset[column], width: columnWidth, height: height)
             let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)

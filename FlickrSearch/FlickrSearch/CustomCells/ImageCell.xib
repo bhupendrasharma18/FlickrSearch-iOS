@@ -16,20 +16,33 @@
                 <rect key="frame" x="0.0" y="0.0" width="245" height="161"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z1r-jS-bkX">
-                        <rect key="frame" x="5" y="5" width="235" height="151"/>
-                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1q-ey-uJF">
+                        <rect key="frame" x="0.0" y="0.0" width="245" height="161"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Z1r-jS-bkX">
+                                <rect key="frame" x="0.0" y="0.0" width="245" height="161"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Z1r-jS-bkX" secondAttribute="trailing" id="5d9-gt-Eo3"/>
+                            <constraint firstItem="Z1r-jS-bkX" firstAttribute="top" secondItem="h1q-ey-uJF" secondAttribute="top" id="Ecv-Zo-kL1"/>
+                            <constraint firstItem="Z1r-jS-bkX" firstAttribute="leading" secondItem="h1q-ey-uJF" secondAttribute="leading" id="Ukv-7M-A9j"/>
+                            <constraint firstAttribute="bottom" secondItem="Z1r-jS-bkX" secondAttribute="bottom" id="Xcd-N9-LaS"/>
+                        </constraints>
+                    </view>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Z1r-jS-bkX" secondAttribute="trailing" constant="5" id="4uY-j0-f19"/>
-                <constraint firstAttribute="bottom" secondItem="Z1r-jS-bkX" secondAttribute="bottom" constant="5" id="98q-q9-QD2"/>
-                <constraint firstItem="Z1r-jS-bkX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="EzZ-mw-kdG"/>
-                <constraint firstItem="Z1r-jS-bkX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="daT-Q6-Rcd"/>
+                <constraint firstAttribute="bottom" secondItem="h1q-ey-uJF" secondAttribute="bottom" id="BJD-dr-yZy"/>
+                <constraint firstItem="h1q-ey-uJF" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Wpl-tO-UOe"/>
+                <constraint firstItem="h1q-ey-uJF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dFQ-nl-O7N"/>
+                <constraint firstAttribute="trailing" secondItem="h1q-ey-uJF" secondAttribute="trailing" id="ssh-kR-vaK"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="245" height="161"/>
             <connections>
+                <outlet property="containerView" destination="h1q-ey-uJF" id="abQ-CD-n08"/>
                 <outlet property="imgView" destination="Z1r-jS-bkX" id="i83-Yo-fS3"/>
             </connections>
             <point key="canvasLocation" x="278.98550724637681" y="187.83482142857142"/>

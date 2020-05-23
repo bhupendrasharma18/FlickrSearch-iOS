@@ -15,4 +15,5 @@ struct PhotoModel {
     var urlString: String?
     var height: CGFloat?
     var width: CGFloat?
+    var aspectRatio: CGFloat = 1
 }
