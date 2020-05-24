@@ -18,6 +18,7 @@ class ImageCell: UICollectionViewCell {
         
         containerView.layer.cornerRadius = 6
         containerView.layer.masksToBounds = true
+        containerView.backgroundColor = UIColor.init(red: 17/255.0, green: 20/255.0, blue: 27/255.0, alpha: 1.0)
     }
     
     func configureCell(photo: PhotoModel?) {
