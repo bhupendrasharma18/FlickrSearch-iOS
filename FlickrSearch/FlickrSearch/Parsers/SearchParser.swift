@@ -16,7 +16,7 @@ class SearchParser {
             searchModel.page = searched["page"] as? Int
             searchModel.pages = searched["pages"] as? Int
             searchModel.perPage = searched["perpage"] as? Int
-            searchModel.total = searched["total"] as? Int
+            searchModel.total = Int(searched["total"] as? String ?? "")
             searchModel.photos = parsePhotos(photos: searched["photo"] as? [AnyObject])
             return searchModel
         }

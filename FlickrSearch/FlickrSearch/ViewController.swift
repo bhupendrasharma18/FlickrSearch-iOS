@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let bgColor = UIColor.init(red: 17/255.0, green: 20/255.0, blue: 27/255.0, alpha: 1.0)
+    
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var collectionView: UICollectionView!
     let identifier = "ImageCellIdentifier"
@@ -23,10 +25,18 @@ class ViewController: UIViewController {
 
         if let layout = collectionView?.collectionViewLayout as? GridLayout {
             layout.delegate = self
-            layout.set(columns: 2, cellPadding: 5)
+            layout.set(columns: 2, cellPadding: 3)
         }
-//        collectionView?.prefetchDataSource = self
+
         collectionView.register(UINib.init(nibName: "ImageCell", bundle: nil), forCellWithReuseIdentifier: identifier)
+        appearances()
+    }
+    
+    private func appearances() {
+        collectionView.backgroundColor = bgColor
+        view.backgroundColor = bgColor
+        let textFieldInsideSearchBar = searchBar.value(forKey: "searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = .white
     }
     
     private func requestSearch(text: String?) {
@@ -41,17 +51,35 @@ class ViewController: UIViewController {
         let request = SearchRequest()
         request.makeSearchRequest(keyword: keyword, pageNo: currentPage ) { (model: SearchModel?, error: Error?) in
             DispatchQueue.main.async {
-                if self.searchModel?.photos != nil && self.currentPage > 1 {
-                    self.searchModel?.photos?.append(contentsOf: model?.photos ?? [])
+                if let err = error {
+                    print(err)
                 }
                 else {
-                    self.searchModel = model
-                    self.searchedRecently = keyword
-                }
-                UIView.performWithoutAnimation {
-                    self.collectionView.reloadData()
+                    self.updateAfterSearch(model: model, keyword: keyword)
                 }
                 self.isFetching = false
+            }
+        }
+    }
+    
+    private func updateAfterSearch(model: SearchModel?, keyword: String!) {
+        if self.searchModel?.photos != nil && self.currentPage > 1 {
+            let startIndex: Int! = self.searchModel?.photos?.count
+            self.searchModel?.photos?.append(contentsOf: model?.photos ?? [])
+            
+            var indexPaths: [IndexPath] = .init()
+            for i in startIndex..<(self.searchModel?.photos?.count ?? 0) {
+                indexPaths.append(IndexPath.init(item: i, section: 0))
+            }
+            self.collectionView.performBatchUpdates({
+              self.collectionView.insertItems(at: indexPaths)
+            }, completion: nil)
+        }
+        else {
+            self.searchModel = model
+            self.searchedRecently = keyword
+            UIView.performWithoutAnimation {
+                self.collectionView.reloadData()
             }
         }
     }
@@ -74,20 +102,11 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let arr = searchModel?.photos else { return }
-        if indexPath.item >= arr.count - 1 && !isFetching  {
+        if indexPath.item >= arr.count - 10 && !isFetching && arr.count < searchModel?.total ?? 1  {
             requestSearch(text: searchedRecently)
         }
     }
 }
-
-//extension ViewController: UICollectionViewDataSourcePrefetching {
-//  func collectionView(_ collectionView: UICollectionView,
-//      prefetchItemsAt indexPaths: [IndexPath]) {
-//    for indexPath in indexPaths {
-//        print("Prefetch: \(indexPath.item)")
-//    }
-//  }
-//}
 
 extension ViewController: UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
