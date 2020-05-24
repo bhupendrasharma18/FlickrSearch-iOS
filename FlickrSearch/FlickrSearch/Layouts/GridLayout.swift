@@ -18,6 +18,8 @@ class GridLayout: UICollectionViewLayout {
     private var cellPadding: CGFloat = 0
     private var arrAttributes: [UICollectionViewLayoutAttributes] = []
     private var contentHeight: CGFloat = 0
+    
+    var insertingIndexPaths = [IndexPath]()
 
     private var contentWidth: CGFloat {
         guard let collectionView = collectionView else {
@@ -94,5 +96,35 @@ class GridLayout: UICollectionViewLayout {
     func set(columns: Int, cellPadding: CGFloat) {
         self.columns = columns
         self.cellPadding = cellPadding
+    }
+    
+    // for inserting items in collectionview
+    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+        super.prepare(forCollectionViewUpdates: updateItems)
+
+        insertingIndexPaths.removeAll()
+        for update in updateItems {
+            if let indexPath = update.indexPathAfterUpdate, update.updateAction == .insert {
+                insertingIndexPaths.append(indexPath)
+            }
+        }
+    }
+
+    override func finalizeCollectionViewUpdates() {
+        super.finalizeCollectionViewUpdates()
+        insertingIndexPaths.removeAll()
+    }
+    
+    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let attributes = super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
+
+        if insertingIndexPaths.contains(itemIndexPath) {
+            attributes?.alpha = 0.0
+            attributes?.transform = CGAffineTransform(
+                scaleX: 0.1,
+                y: 0.1
+            )
+        }
+        return attributes
     }
 }
